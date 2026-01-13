@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | B2B Analytics Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-panel: #0a0a0a;
+            --accent-primary: #00f0ff;
+            --accent-secondary: #70ff00;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* Grid Background */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: var(--accent-primary);
+            color: var(--bg-dark);
+        }
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 20s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hover Glitch Effect Hint */
+        .nav-item:hover .nav-line {
+            width: 100%;
+            background-color: var(--accent-primary);
+        }
+        
+        .nav-line {
+            width: 0%;
+            height: 1px;
+            background-color: transparent;
+            transition: width 0.3s ease;
+        }
+
+        /* Image Parallax Container */
+        .img-container {
+            overflow: hidden;
+        }
+        .img-container img {
+            transition: transform 1.2s ease;
+        }
+        .img-container:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="flex flex-col lg:flex-row min-h-screen">
+
+    <!-- RAIL: Left Navigation (Fixed) -->
+    <nav class="w-full lg:w-64 h-auto lg:h-screen lg:fixed top-0 left-0 bg-neutral-900 border-r border-white/10 flex flex-col justify-between z-50 p-6 lg:p-8">
+        <!-- Top: Logo -->
+        <div class="flex justify-between lg:block items-center">
+            <div class="text-2xl font-bold tracking-tighter mb-0 lg:mb-12 flex items-center gap-2">
+                <div class="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
+                NEXUS_OS
+            </div>
+            <!-- Mobile Menu Toggle (Hidden logic for demo, focus on desktop layout priority) -->
+            <button class="lg:hidden text-white uppercase font-mono text-sm border border-white/20 px-3 py-1">Menu</button>
+        </div>
+
+        <!-- Middle: Nav Links -->
+        <div class="hidden lg:flex flex-col gap-6">
+            <a href="#" class="nav-item group block">
+                <span class="font-mono text-xs text-gray-500 mb-1 block group-hover:text-cyan-400 transition-colors">01</span>
+                <span class="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">Platform</span>
+                <div class="nav-line mt-1 bg-gray-700 group-hover:bg-cyan-400"></div>
+            </a>
+            <a href="#" class="nav-item group block">
+                <span class="font-mono text-xs text-gray-500 mb-1 block group-hover:text-cyan-400 transition-colors">02</span>
+                <span class="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">Intelligence</span>
+                <div class="nav-line mt-1 bg-gray-700 group-hover:bg-cyan-400"></div>
+            </a>
+            <a href="#" class="nav-item group block">
+                <span class="font-mono text-xs text-gray-500 mb-1 block group-hover:text-cyan-400 transition-colors">03</span>
+                <span class="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">Solutions</span>
+                <div class="nav-line mt-1 bg-gray-700 group-hover:bg-cyan-400"></div>
+            </a>
+            <a href="#" class="nav-item group block">
+                <span class="font-mono text-xs text-gray-500 mb-1 block group-hover:text-cyan-400 transition-colors">04</span>
+                <span class="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">Enterprise</span>
+                <div class="nav-line mt-1 bg-gray-700 group-hover:bg-cyan-400"></div>
+            </a>
+        </div>
+
+        <!-- Bottom: Status/CTA -->
+        <div class="hidden lg:block">
+            <div class="font-mono text-[10px] text-gray-500 mb-4">
+                SYSTEM STATUS: <span class="text-green-500">ONLINE</span>
+            </div>
+            <a href="#" class="block w-full text-center py-3 border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 font-mono text-xs uppercase tracking-widest">
+                Request Demo
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT: Fluid Right Column -->
+    <main class="lg:ml-64 w-full relative bg-neutral-950 grid-bg">
+        
+        <!-- HERO SECTION -->
+        <section class="min-h-screen flex flex-col justify-end pb-20 px-6 lg:px-20 pt-32 lg:pt-0 relative overflow-hidden">
+            <!-- Abstract Background Element -->
+            <div class="absolute top-0 right-0 w-full h-full pointer-events-none opacity-40 z-0">
+                <img src="https://images.unsplash.com/photo-1558494949-ef526b0042a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+                     class="w-full h-full object-cover mix-blend-overlay grayscale contrast-125" 
+                     alt="Abstract Data flow">
+                <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-neutral-950 via-transparent to-transparent"></div>
+            </div>
+
+            <div class="relative z-10 reveal">
+                <h1 class="text-6xl lg:text-[9rem] font-bold leading-[0.85] tracking-tighter mb-8">
+                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">DATA</span>
+                    <span class="block pl-4 lg:pl-24 text-white">REFINED.</span>
+                </h1>
+                
+                <div class="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-10 lg:gap-0 mt-8">
+                    <div class="max-w-md">
+                        <p class="text-gray-400 text-lg lg:text-xl font-light leading-relaxed">
+                            Transform raw entropy into actionable signal. The first predictive engine built for the hyper-scale enterprise.
+                        </p>
+                        
+                        <div class="mt-8 flex items-center gap-4">
+                            <button class="px-8 py-4 bg-cyan-400 text-black font-bold tracking-tight hover:bg-cyan-300 transition-colors">
+                                Start Analysis
+                            </button>
+                            <button class="px-8 py-4 border border-white/20 text-white font-mono hover:bg-white/5 transition-colors">
+                                View Documentation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Data widget decoration -->
+                    <div class="glass-card p-6 rounded-none border-l-2 border-l-cyan-400 w-full lg:w-80">
+                        <div class="flex justify-between text-xs font-mono text-gray-500 mb-2">
+                            <span>PROCESSING</span>
+                            <span>88ms</span>
+                        </div>
+                        <div class="flex items-end gap-1 h-12 mb-2">
+                            <div class="w-1/5 h-[40%] bg-white/20"></div>
+                            <div class="w-1/5 h-[70%] bg-white/40"></div>
+                            <div class="w-1/5 h-[50%] bg-white/30"></div>
+                            <div class="w-1/5 h-[90%] bg-cyan-400"></div>
+                            <div class="w-1/5 h-[65%] bg-white/20"></div>
+                        </div>
+                        <div class="text-2xl font-bold font-mono">+24.8% <span class="text-xs font-normal text-gray-400">YOY Growth</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="py-4 bg-neutral-900 border-y border-white/10">
+            <div class="ticker-wrap">
+                <div class="ticker text-sm font-mono uppercase tracking-widest text-gray-400">
+                     // REAL-TIME INGESTION // 99.999% UPTIME // SOC2 COMPLIANT // PREDICTIVE MODELING // REAL-TIME INGESTION // 99.999% UPTIME // SOC2 COMPLIANT // PREDICTIVE MODELING
+                </div>
+            </div>
+        </div>
+
+        <!-- STATISTICS GRID -->
+        <section class="px-6 lg:px-20 py-32 border-b border-white/5">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors duration-500 group">
+                    <div class="text-cyan-400 text-4xl mb-6 font-light group-hover:scale-110 transition-transform origin-left">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Real-Time Ingestion</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Process petabytes of unstructured data with zero latency. Our pipeline adapts to your velocity.
+                    </p>
+                </div>
+                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors duration-500 group">
+                     <div class="text-lime-400 text-4xl mb-6 font-light group-hover:scale-110 transition-transform origin-left">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Predictive Models</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Don't just see what happened. See what's next. AI-driven forecasting built into the core.
+                    </p>
+                </div>
+                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors duration-500 group">
+                     <div class="text-purple-400 text-4xl mb-6 font-light group-hover:scale-110 transition-transform origin-left">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Visual Clarity</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Dashboards that actually make sense. Customizable, drag-and-drop, and beautiful by default.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE HIGHLIGHT (Asymmetric) -->
+        <section class="px-6 lg:px-20 py-32 flex flex-col lg:flex-row gap-20 items-center">
+            <div class="w-full lg:w-1/2 reveal">
+                <div class="font-mono text-cyan-400 mb-6 uppercase tracking-wider">// The Architecture</div>
+                <h2 class="text-5xl lg:text-7xl font-bold mb-8 leading-tight">BUILT FOR <br>SCALE.</h2>
+                <p class="text-xl text-gray-400 mb-8 max-w-lg">
+                    Stop wrestling with fragmented tools. Nexus unifies your entire data stack into a single source of truth.
+                </p>
+                <ul class="space-y-4 font-mono text-sm text-gray-300">
+                    <li class="flex items-center gap-4">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                        API-First Design
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                        End-to-End Encryption
+                    </li>
+                    <li class="flex items-center gap-4">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                        Granular Access Control
+                    </li>
+                </ul>
+            </div>
+            <div class="w-full lg:w-1/2 relative reveal">
+                <!-- Abstract Graphic Representation -->
+                 <div class="img-container aspect-square lg:aspect-[4/3] relative">
+                     <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                          alt="Cybersecurity Data" 
+                          class="w-full h-full object-cover rounded-sm opacity-80">
+                     
+                     <!-- Floating UI Card Overlay -->
+                     <div class="absolute -bottom-10 -left-10 bg-black/90 p-8 border border-white/10 shadow-2xl w-2/3 hidden lg:block">
+                         <div class="flex justify-between items-center mb-6">
+                             <span class="text-xs font-mono text-gray-500">LIVE STREAM</span>
+                             <div class="flex gap-1">
+                                 <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                 <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                                 <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                             </div>
+                         </div>
+                         <div class="space-y-3">
+                             <div class="h-2 bg-neutral-800 rounded-full overflow-hidden">
+                                 <div class="h-full bg-cyan-400 w-3/4"></div>
+                             </div>
+                             <div class="h-2 bg-neutral-800 rounded-full overflow-hidden">
+                                 <div class="h-full bg-purple-500 w-1/2"></div>
+                             </div>
+                             <div class="h-2 bg-neutral-800 rounded-full overflow-hidden">
+                                 <div class="h-full bg-lime-400 w-5/6"></div>
+                             </div>
+                         </div>
+                         <div class="mt-6 flex justify-between text-white font-mono text-sm">
+                             <span>Resources</span>
+                             <span>82%</span>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- COLLAGE / TEXTURE SECTION -->
+        <section class="py-32 overflow-hidden relative">
+             <div class="absolute inset-0 bg-neutral-900 skew-y-3 transform origin-top-left -z-10"></div>
+             <div class="px-6 lg:px-20 text-center mb-20 reveal">
+                 <h2 class="text-4xl lg:text-6xl font-bold tracking-tighter">INTEGRATE INSTANTLY</h2>
+             </div>
+             
+             <div class="flex justify-center gap-8 lg:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+                 <!-- Minimalist Logo Placeholders -->
+                 <div class="text-2xl font-bold font-mono">STRIPE</div>
+                 <div class="text-2xl font-bold font-mono">AWS</div>
+                 <div class="text-2xl font-bold font-mono">GOOGLE</div>
+                 <div class="text-2xl font-bold font-mono">SNOWFLAKE</div>
+                 <div class="text-2xl font-bold font-mono">AZURE</div>
+             </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="min-h-[60vh] flex flex-col items-center justify-center px-6 relative border-t border-white/10">
+            <div class="text-center reveal">
+                <p class="text-cyan-400 font-mono mb-6 uppercase">Ready to deploy?</p>
+                <h2 class="text-6xl lg:text-8xl font-bold mb-8 tracking-tighter text-white">
+                    GET <span class="text-gray-600 italic">CLEAR</span>.
+                </h2>
+                <a href="#" class="inline-block px-12 py-5 bg-white text-black font-bold text-lg hover:bg-cyan-400 transition-colors duration-300">
+                    Start Free Trial
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-white/10 py-12 px-6 lg:px-20 flex flex-col lg:flex-row justify-between items-start text-gray-500 font-mono text-sm">
+            <div class="mb-8 lg:mb-0">
+                <span class="text-white font-bold block mb-2">NEXUS_OS</span>
+                &copy; 2024
+            </div>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition-colors">Legal</a>
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Twitter</a>
+                <a href="#" class="hover:text-white transition-colors">GitHub</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+<script>
+  let inspectorMode = false;
+  let hoveredElement = null;
+  let selectedElement = null;
+  
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'SET_INSPECTOR_MODE') {
+      inspectorMode = event.data.enabled;
+      document.body.style.cursor = inspectorMode ? 'crosshair' : 'default';
+    }
+    
+    if (event.data?.type === 'LOCAL_UPDATE' && selectedElement) {
+      const update = event.data.update;
+      
+      if (update.text !== undefined) {
+        selectedElement.innerText = update.text;
+      }
+      
+      if (update.styles) {
+        Object.entries(update.styles).forEach(([prop, value]) => {
+          selectedElement.style[prop] = value;
+        });
+      }
+    }
+  });
+  
+  document.addEventListener('mouseover', (e) => {
+    if (!inspectorMode) return;
+    if (hoveredElement && hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '';
+    }
+    hoveredElement = e.target;
+    if (hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '2px solid #06b6d4';
+    }
+  });
+  
+  document.addEventListener('mouseout', (e) => {
+    if (!inspectorMode || !hoveredElement) return;
+    if (hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '';
+    }
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!inspectorMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (selectedElement) {
+      selectedElement.style.outline = '';
+    }
+    
+    const el = e.target;
+    selectedElement = el;
+    el.style.outline = '3px solid #06b6d4';
+    
+    const rect = el.getBoundingClientRect();
+    const styles = window.getComputedStyle(el);
+    
+    window.parent.postMessage({
+      type: 'ELEMENT_SELECTED',
+      element: {
+        tagName: el.tagName.toLowerCase(),
+        text: el.innerText?.substring(0, 500) || '',
+        className: el.className || '',
+        styles: {
+          color: styles.color,
+          backgroundColor: styles.backgroundColor,
+          fontSize: styles.fontSize,
+          fontWeight: styles.fontWeight,
+          padding: styles.padding,
+          margin: styles.margin,
+        },
+        rect: {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
+        },
+        selector: el.id ? '#' + el.id : (el.className ? '.' + el.className.split(' ')[0] : el.tagName.toLowerCase())
+      }
+    }, '*');
+  }, true);
+</script>
+</body>
+</html>
